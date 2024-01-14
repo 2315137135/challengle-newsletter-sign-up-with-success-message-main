@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- displays site properly based on user's device -->
+
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+    <!-- tailwindcss cdn-->
+    <script src="/assets/tailwindcss.js"></script>
+    <title>Frontend Mentor | Newsletter sign-up form with success message</title>
+</head>
+
+
+<body class="min-h-screen h-full bg-gray-800 md:flex md:items-center md:justify-center">
+
+    <!-- Sign-up form start -->
+    <div id="sign-up"
+        class="flex flex-col md:flex-row-reverse bg-white md:rounded-2xl md:max-w-screen-md md:h-[32rem] h-full md:w-full min-h-screen md:min-h-max">
+        <img id="sign-up-image" src="#" class="max-w-full h-full md:w-7/12 md:p-4 md:h-full" alt="sign up image"></img>
+        <div id="sign-up-form" class="*:py-4 px-8 md:w-8/12 ">
+            <h1 class="text-5xl font-extrabold my-4">Stay updated!</h1>
+
+            <p>
+                Join 60,000+ product managers receiving monthly updates on:
+            </p>
+            <ul class="flex flex-col gap-2">
+                <li class="flex  gap-4 items-start text-sm">
+                    <img src="./assets/images/icon-list.svg" alt="√"></img>
+                    <p>
+                        Product discovery and building what matters
+                    </p>
+                </li>
+
+                <li class="flex gap-4 items-start text-sm">
+                    <img src="./assets/images/icon-list.svg" alt="√"></img>
+                    <p>
+                        Measuring to ensure updates are a success
+                    </p>
+                </li>
+                <li class="flex gap-4 items-start text-sm">
+                    <img src="./assets/images/icon-list.svg" alt="√"></img>
+                    <p>
+                        And much more!
+                    </p>
+                </li>
+            </ul>
+
+
+
+
+            <h2 class="font-bold text-lg flex justify-between">
+                <div>
+                    Email address
+                </div>
+                <div id="error-message" class="text-red-500  invisible">
+                    error
+                </div>
+            </h2>
+            <input class="block w-full  outline outline-1 p-4 rounded-xl " text" id="email"
+                placeholder="email@company.com">
+
+            <button id="submit" class="w-full  bg-gray-800 text-white rounded-md hover:bg-gray-600 my-4">
+                Subscribe to monthly newsletter
+            </button>
+
+            <!-- Sign-up form end -->
+        </div>
+    </div>
+
+    <!-- Success message start -->
+
+    <div id="success-message"
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-left p-10 rounded-xl shadow-xl invisible">
+        <img src="./assets/images/icon-success.svg" alt="success" width="48" />
+        <h1 class="text-5xl font-extrabold my-4"> Thanks for subscribing!</h1>
+        <p>
+            A confirmation email has been sent to <span class="font-bold">ash@loremcompany.com.</span>
+            Please open it and click the button inside to confirm your subscription.
+        </p>
+
+        <button id="dismiss" class="w-full  bg-gray-800 text-white rounded-md hover:bg-gray-600 my-4 py-4">
+            Dismiss message
+
+        </button>
+    </div>
+
+
+
+</body>
+
+<script>
+    let mobile = window.matchMedia("(max-width: 768px)")
+    let update = () => {
+        if (mobile.matches) {
+            document.getElementById("sign-up-image").src = "./assets/images/illustration-sign-up-mobile.svg"
+        } else {
+            document.getElementById("sign-up-image").src = "./assets/images/illustration-sign-up-desktop.svg"
+        }
+    }
+    update()
+
+    mobile.addEventListener("change", () => {
+        update()
+    })
+
+    function setValidationStyle(ok = false) {
+        if (ok) {
+            document.getElementById("email").classList.remove("error")
+            document.getElementById("error-message").classList.add("invisible")
+        } else {
+            document.getElementById("email").classList.add("error")
+            document.getElementById("error-message").classList.remove("invisible")
+        }
+    }
+
+
+    function validateEmail(email) {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    let isValid = () => {
+        let value = document.getElementById("email").value
+        return validateEmail(value)
+    }
+
+    document.getElementById("email").addEventListener("input", () => {
+        let value = document.getElementById("email").value
+        if (validateEmail(value) || !value) {
+            setValidationStyle(true)
+        } else {
+            setValidationStyle(false)
+        }
+    })
+
+    // click
+    document.getElementById("submit").addEventListener("click", () => {
+        if (isValid()) {
+            if (!mobile.matches) {
+                document.getElementById("sign-up").classList.add("invisible")
+            }
+            document.getElementById("success-message").classList.remove("invisible")
+        }
+    })
+
+
+    document.getElementById("dismiss").addEventListener("click", () => {
+        document.getElementById("success-message").classList.add("invisible")
+        document.getElementById("sign-up").classList.remove("invisible")
+    })
+
+</script>
+
+<style>
+    @font-face {
+        font-family: "Josefin Sans";
+        src: url(./assets/fonts/Roboto-Regular.ttf);
+    }
+
+    html {
+        font-family: "josefin sans" serif;
+    }
+
+    body {
+        font-size: 16px;
+        min-height: 100dvh;
+    }
+
+    .error {
+        outline-color: red;
+    }
+</style>
+
+</html>
